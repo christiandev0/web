@@ -8,7 +8,6 @@
 }
 
 body {
-    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -17,14 +16,6 @@ body {
     background-size: 1000%;
     animation: gradient 15s ease infinite;
     color: white;
-}
-
-header {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000; /* Imposta uno z-index sufficientemente alto */
 }
 
 @keyframes gradient {
@@ -39,13 +30,49 @@ header {
     }
 }
 
+
+
 .wrapper {
     width: 420px;
     background: none;
     color: rgb(121, 21, 21);
     border-radius: 10px;
     padding: 30px 40px;
+    position: relative; /* Aggiunto per posizionamento relativo */
+}
+
+.wrapper {
+    position: relative;
+}
+
+.logo {
     position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.logo a, .links a {
+    color: #781010;
+    text-decoration: none;
+}
+
+.links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.links li {
+    display: inline-block;
+    margin-left: 20px;
+}
+
+.links a {
+    font-weight: bold;
+    font-size: 16px;
 }
 
 .wrapper h1 {
@@ -58,7 +85,7 @@ header {
     height: 50px;
     background: none;
     margin: 30px 0;
-    position: relative;
+    position: relative; /* Aggiunto per posizionamento relativo */
 }
 
 .input-box input {
@@ -81,11 +108,11 @@ header {
     display: flex;
     justify-content: space-between;
     font-size: 14.5px;
-    margin: 0 0 15px; /* Corretto */
+    margin: 0 0 15px; /* Aggiunto px a -15 */
 }
 
 .remember-forgot label input {
-    accent-color: #9a1616;
+    accent-color: #fff;
     margin-right: 3px;
 }
 
@@ -101,7 +128,7 @@ header {
 .wrapper .btn {
     width: 100%;
     height: 45px;
-    background: #9a1616;
+    background: #781010;
     border: none;
     outline: none;
     border-radius: 40px;
@@ -110,6 +137,11 @@ header {
     font-size: 16px;
     color: #fff;
     font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.wrapper .btn:active {
+    transform: scale(0.96);
 }
 
 .wrapper .register-link {
@@ -127,3 +159,42 @@ header {
 .register-link p a:hover {
     text-decoration: underline;
 }
+
+/* Stile del checkbox */
+/* Stile del checkbox */
+.wrapper .checkbox {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox input[type="checkbox"] {
+    display: none;
+}
+
+.checkbox label {
+    position: relative;
+    padding-left: 30px;
+    cursor: pointer;
+    color: #fff;
+}
+
+.checkbox label::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid #fff;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+/* Aggiunto: cambia il colore di sfondo e il bordo quando il checkbox è selezionato */
+.checkbox input[type="checkbox"]:checked + label::before {
+    background: #781010; /* Cambiato colore di sfondo con maggiore opacità */
+    border: 2px solid #c1b4b4; /* Mantenuto il bordo visibile */
+}
+

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang= "it">
 
 <head>
     <meta charset="UTF-8">
@@ -7,21 +7,16 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="login_style.css">
-    <link rel="stylesheet" type="text/css" href="index_style.css">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 </head>
 
 <body>
-    <header>
-        <div class="navbar">
-            <div class="logo"><a href="index.html">Sitozon</a></div>
-            <ul class="links">
-                <li><a href="About.html">About</a></li>
-                <li><a href="contatti.html">Contact</a></li>
-            </ul>
-        </div>
-    </header>
-    <div class="wrapper">
+    <h1 class="logo"><a href="index.html">Sitozon</a></h1>
+    <ul class="links">
+        <li><a href="About.html">About</a></li>
+        <li><a href="contatti.html">Contact</a></li>
+    </ul>
+    <div class="wrapper"> 
         <form action="">
             <h1>Login</h1>
             <div class="input-box">
@@ -34,11 +29,14 @@
             </div>
 
             <div class="remember-forgot">
-                <label input type="checkbox" name="remember">Ricordami</label>
+                <div class="checkbox"> 
+                    <input type="checkbox" id="rememberMe" name="rememberMe">
+                    <label for="rememberMe">Ricordami</label>
+                </div>
                 <a href="#">Password dimenticata?</a>
             </div>
 
-            <button type="submit" class="btn">Log in</button>
+            <button type="submit" class="btn">Login</button>
 
             <div class="register-link">
                 <p>Non hai un account? <a href="#">Registrati ora !</a></p>
