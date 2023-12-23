@@ -73,7 +73,11 @@ body {
 
 .links a {
     font-weight: bold;
-    font-size: 16px;
+    font-size: 19px;
+}
+
+.links a:hover {
+    color: #3d0a0a;
 }
 
 .wrapper h1 {
@@ -161,8 +165,22 @@ body {
     text-decoration: underline;
 }
 
-/* Stile del checkbox */
-/* Stile del checkbox */
+.wrapper .login-link {
+    font-size: 14.5px; /* Esempio: cambiato il font-size */
+    text-align: center;
+    margin: 20px 0 15px; /* Esempio: cambiato il margine */
+}
+
+.login-link p a {
+    color: #fff; /* Esempio: cambiato il colore del testo */
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.login-link p a:hover {
+    text-decoration: underline; 
+}
+
 .wrapper .checkbox {
     display: flex;
     align-items: center;

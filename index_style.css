@@ -1,4 +1,5 @@
 /* index_style.css */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
 
 *{
     margin: 0;
@@ -7,10 +8,10 @@
 }
 
 body {
-    background: linear-gradient(-45deg, #a0d648, #e73c7e, #23a6d5, #23d5ab);
+    background: linear-gradient(-45deg, #a0d648, #6c2c45, #23a6d5, #23d5ab);
     background-size:  1000%;
     animation: gradient 15s ease infinite;
-    font-family: Arial, sans-serif;
+    font-family: "Poppins", sans-serif;
     color: white;
 }
 
@@ -38,7 +39,7 @@ a{
     
 }
 a:hover {
-    color: #9a1616;
+    color: #3d0a0a;
 }
 header {
     position: relative;
@@ -54,10 +55,14 @@ header {
     align-items: center;
     justify-content: space-between;
 }
+
 .navbar .logo a{
     font-size: 2rem;
     font-weight: bold;
-    color: #9a1616;
+    color: #781010;
+    position: absolute;
+    top: 10px;
+    left: 10px;
 }
 .navbar .links{
     display:  flex;
@@ -114,7 +119,7 @@ header {
 }
 
 .dropdown_menu.open {
-    height: 180px;
+    height: 200px;
 }
 
 .dropdown_menu li {
