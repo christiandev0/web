@@ -1,6 +1,6 @@
 <?php
 // Registrazione lato server
-
+session_start();
 if (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
     die("You Need To Put a Valid Email!");
 }
@@ -28,18 +28,16 @@ $username = $_POST["username"];
 $email = $_POST["email"];
 
 // Verifica se l'utente con lo stesso username o email è già presente nel database
-$checkExistingUserQuery = "SELECT * FROM utente WHERE username = :username OR email = :email LIMIT 1";
+$checkExistingUserQuery = "SELECT id, username, password FROM utente WHERE username = :username";
 $checkStmt = $connection->prepare($checkExistingUserQuery);
-
 $checkStmt->bindParam(':username', $username, PDO::PARAM_STR);
-$checkStmt->bindParam(':email', $email, PDO::PARAM_STR);
-
 $checkStmt->execute();
+
 $existingUser = $checkStmt->fetch(PDO::FETCH_ASSOC);
 
 if ($existingUser) {
-    // L'utente con lo stesso username o email è già presente
-    die("Username o Email già in uso. Scegliere un altro.");
+    // L'utente con lo stesso username è già presente
+    die("Username già in uso. Scegliere un altro.");
 }
 
 // L'utente non esiste, procedi con l'inserimento
@@ -58,7 +56,21 @@ $stmt->bindParam(':username', $username, PDO::PARAM_STR);
 $stmt->bindParam(':password', $password, PDO::PARAM_STR);
 
 $stmt->execute();
-$stmt->closeCursor();
 
-echo "Registrazione avvenuta con successo!";
+// Ottieni l'ID appena inserito
+$user_id = $connection->lastInsertId();
+
+$token = bin2hex(random_bytes(32));
+
+// Salva il token nel database
+$queryUpdateToken = "UPDATE utente SET token = :token WHERE id = :id";
+$stmtUpdateToken = $connection->prepare($queryUpdateToken);
+$stmtUpdateToken->bindParam(':token', $token, PDO::PARAM_STR);
+$stmtUpdateToken->bindParam(':id', $user_id, PDO::PARAM_INT);
+$stmtUpdateToken->execute();
+
+// Invia il token al client (ad esempio, come cookie)
+setcookie("auth_token", $token, time() + 3600, "/");
+header('Location: dashboard.php');
+exit();
 ?>

@@ -1,31 +1,42 @@
 <?php
+// Connessione al database
 session_start();
+$connection = require __DIR__ . '/connessioneDB.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = filter_input(INPUT_POST, "username");
-    $password = filter_input(INPUT_POST, "password");
-
-    // Esegui ulteriori controlli di validazione lato server
-    if (empty($username) || empty($password)) {
-        die ("Username e password sono obbligatori.");
-    } else {
-        // Esegui ulteriori verifiche o elabora il login
-        // Ad esempio, verifica l'autenticità delle credenziali e restituisci una risposta adeguata
-
-        // Simuliamo una verifica di autenticità
-        $hashedPasswordFromDatabase = password_hash("password123", PASSWORD_DEFAULT);
-
-        if (password_verify($password, $hashedPasswordFromDatabase)) {
-            // Login riuscito
-            $_SESSION["username"] = $username; // Salva il nome utente in una variabile di sessione
-
-            echo "Login riuscito. Redirecting...";
-            // Puoi reindirizzare l'utente alla dashboard o a un'altra pagina
-            header("Location: dashboard.php");
-            exit();
-        } else {
-            echo "Credenziali non valide.";
-        }
-    }
+// Autenticazione lato server
+if (empty($_POST["username"]) || empty($_POST["password"])) {
+    die("Username e password richiesti.");
 }
+
+$username = $_POST["username"];
+$password = $_POST["password"];
+
+$query = "SELECT id, username, password FROM utente WHERE username = :username";
+$stmt = $connection->prepare($query);
+$stmt->bindParam(':username', $username, PDO::PARAM_STR);
+$stmt->execute();
+
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$user || !password_verify($password, $user['password'])) {
+    die("Credenziali non valide.");
+}
+$_SESSION['user_id'] = $user['id'];
+
+// Genera un token di autenticazione
+$token = bin2hex(random_bytes(32));
+
+// Salva il token nel database (puoi creare una colonna 'token' nella tabella utente)
+$queryUpdateToken = "UPDATE utente SET token = :token WHERE id = :id";
+$stmtUpdateToken = $connection->prepare($queryUpdateToken);
+$stmtUpdateToken->bindParam(':token', $token, PDO::PARAM_STR);
+$stmtUpdateToken->bindParam(':id', $user['id'], PDO::PARAM_INT);
+$stmtUpdateToken->execute();
+
+// Invia il token al client (ad esempio, come cookie)
+setcookie("auth_token", $token, time() + 3600, "/");
+
+// Reindirizza alla pagina di successo o dashboard
+header("Location: dashboard.php");
+exit();
 ?>
