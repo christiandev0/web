@@ -19,27 +19,24 @@
         <li><a href="contatti.html">Contact</a></li>
     </ul>
     <div class="wrapper">
-        <form id="registrationForm" action="registration.php" method="post">
+        <form id="registrationForm" action="registrazione.php" method="post">
             <h1>Registrazione</h1>
             <div class="input-box">
-                <input type="text" placeholder="Nome" required>
-                <i class="bx" id="checkNome"></i>
-            </div>
-            <div class="input-box">
-                <input type="text" placeholder="Cognome" required>
-                <i class="bx" id="checkCognome"></i>
-            </div>
-            <div class="input-box">
-                <input type="text" placeholder="Username" required>
+                <input id="username" name="username" type="text" placeholder="Username" required>
                 <i class="bx" id="checkUsername"></i>
             </div>
             <div class="input-box">
-                <input type="password" placeholder="Password" required>
+                <input id="email" name="email" type="email" placeholder="Email" required>
+                <i class="bx" id="checkUsername"></i>
+            </div>
+            <div class="input-box">
+                <input id="password1" name="password1" type="password" placeholder="Password" required>
                 <i class="bx" id="checkPassword"></i>
             </div>
-
-            
-
+            <div class="input-box">
+                <input id="password2" name="password2" type="password" placeholder="Ripeti Password" required>
+                <i class="bx" id="checkPassword"></i>
+            </div>
             <button type="submit" class="btn">Registrati</button>
 
             <div class="login-link">

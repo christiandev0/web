@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Esegui ulteriori controlli di validazione lato server
     if (empty($username) || empty($password)) {
-        echo "Username e password sono obbligatori.";
+        die ("Username e password sono obbligatori.");
     } else {
         // Esegui ulteriori verifiche o elabora il login
         // Ad esempio, verifica l'autenticità delle credenziali e restituisci una risposta adeguata
