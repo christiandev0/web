@@ -59,7 +59,7 @@ $stmt->execute();
 
 // Ottieni l'ID appena inserito
 $user_id = $connection->lastInsertId();
-
+$_SESSION['user_id'] = $user_id;
 $token = bin2hex(random_bytes(32));
 
 // Salva il token nel database
