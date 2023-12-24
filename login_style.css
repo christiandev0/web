@@ -109,6 +109,15 @@ body {
     color: #fff;
 }
 
+#eyeicon {
+    position: absolute;
+    top: 50%;
+    right: 10px; /* Adjust the right value to your preference */
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #3d0a0a;
+}
+
 .wrapper .remember-forgot {
     display: flex;
     justify-content: space-between;
