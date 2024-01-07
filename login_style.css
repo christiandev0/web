@@ -12,7 +12,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: linear-gradient(-45deg, #a0d648, #6c2c45, #23a6d5, #23d5ab);
+    background: linear-gradient(-45deg, #1b1e21, #323333, #857c46, #2d2c2c);
     background-size: 1000%;
     animation: gradient 15s ease infinite;
     color: white;
@@ -35,15 +35,10 @@ body {
 .wrapper {
     width: 420px;
     background: none;
-    color: rgb(121, 21, 21);
+    color: rgb(255, 255, 255);
     border-radius: 10px;
     padding: 30px 40px;
-    position: relative; /* Aggiunto per posizionamento relativo */
-}
-
-
-.wrapper {
-    position: relative;
+    position: relative; 
 }
 
 .logo {
@@ -53,7 +48,7 @@ body {
 }
 
 .logo a, .links a {
-    color: #781010;
+    color: #ffffff;
     text-decoration: none;
 }
 
@@ -76,9 +71,6 @@ body {
     font-size: 19px;
 }
 
-.links a:hover {
-    color: #3d0a0a;
-}
 
 .wrapper h1 {
     font-size: 36px;
@@ -115,7 +107,7 @@ body {
     right: 10px; /* Adjust the right value to your preference */
     transform: translateY(-50%);
     cursor: pointer;
-    color: #3d0a0a;
+    color: #ffffff;
 }
 
 .wrapper .remember-forgot {
@@ -142,14 +134,14 @@ body {
 .wrapper .btn {
     width: 100%;
     height: 45px;
-    background: #781010;
+    background: #ffffff;
     border: none;
     outline: none;
     border-radius: 40px;
     box-shadow: 0 0 10px rgba(0, 0, 0, .1);
     cursor: pointer;
     font-size: 16px;
-    color: #fff;
+    color: #000000;
     font-weight: 600;
     transition: all 0.2s ease;
 }

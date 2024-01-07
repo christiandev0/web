@@ -30,37 +30,86 @@ if (!$user) {
 
 <!DOCTYPE html>
 <html lang="it">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="stylesheet" href="login_style.css">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="dashboard.css">
-    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-</head>
-
-<body>
-    <header>
-        <div class="user-info">
-            <h1>Benvenuto nella Dashboard, <?php echo htmlspecialchars($user['username']); ?>!</h1>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Mover</title>
+        <link rel="stylesheet" href="dashboard_style.css">
+        <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css">
+    </head>
+    <body>
+        <header>
+            <div class="nav container">
+                <a href="index.html" class="logo">
+                    Mover
+                </a>
+                <div class="search-box">
+                    <input type="search" name="" id="search-input" placeholder="Cerca film">
+                    <i class="bx bx-search"></i>
+                </div>
+                <div class="user" id="userDropdown">
+                <img src="immagini/dc_strange.jpeg" alt="" class="user-img">
+                <div class="user-dropdown-content">
+                    <a href="#">Profilo</a>
+                    <a href="#">Preferiti</a>
+                    <a href="logout.php?action=logout">Logout</a>
+                </div>
+            </div>
+                <div class="navbar">
+                    <a href="#Home" class="nav-link" nav-active>
+                        <i class="bx bx-home"></i>
+                        <span class="nav-link-title">Home</span>
+                    </a>
+                    <a href="#Di_tendenza" class="nav-link">
+                        <i class="bx bxs-hot"></i>
+                        <span class="nav-link-title">Di tendenza</span>
+                    </a>
+                    <a href="#Esplora" class="nav-link">
+                        <i class="bx bx-compass"></i>
+                        <span class="nav-link-title">Esplora</span>
+                    </a>
+                    <a href="#Film" class="nav-link">
+                        <i class='bx bxs-movie'></i>
+                        <span class="nav-link-title">Film</span>
+                    </a>
+                    <a href="#Preferiti" class="nav-link">
+                        <i class='bx bxs-heart'></i>
+                        <span class="nav-link-title">Preferiti</span>
+                    </a>
+                </div>
+            </div>
+        </header>
+        <section class="home container" id="home">
+    <div class="carousel">
+        <div class="carousel__item">
+            <img src="immagini/wk4.jpeg" alt="Guardiani della galassia">
         </div>
-    </header>
-
-    <!-- Aggiungi il contenuto della tua dashboard qui -->
-    <div class="logout">
-        <a href="logout.php?action=logout">Logout</a>
+        <div class="carousel__item">
+            <img src="immagini/thor4.jpeg" alt="Oppenheimer">
+        </div>
+        <div class="carousel__item">
+            <img src="immagini/dc_strange.jpeg" alt="User">
+        </div>
+        <div class="carousel__item">
+            <img src="immagini/ggvol3.jpeg" alt="User">
+        </div>
+        <!-- Altri elementi del carousel -->
     </div>
-
-    <!-- Sezione Film Valutati -->
-    <section class="film-valutati-section">
-        <h2>Film Valutati</h2>
-        <a href="film_valutati.php">Vedi Film Valutati</a>
-
-        <!-- Qui puoi mostrare l'elenco dei film valutati dall'utente -->
-        <!-- Ad esempio, puoi fare riferimento al tuo database per recuperare le recensioni degli utenti -->
-    </section>
-</body>
-
+    <div class="home-text">
+        <h1 class="home-title">Titolo film <br></h1>
+        <p>Data d'uscita x</p>
+        <a href="" class="watch-btn">
+            <i class="bx bx-right-arrow"></i>
+            <span>Guarda il trailer!</span>
+        </a>
+    </div>
+        </section>
+        <section class="popular container" id="popular">
+            <div class="heading">
+                <h2 class="heading-title">In tendenza </h2>
+            </div>
+        </section>
+        <script src="carousel.js"></script>
+    </body>
 </html>
