@@ -4,7 +4,7 @@ session_start();
 $connection = require __DIR__ . '/connessioneDB.php';
 
 if (!isset($_COOKIE['auth_token'])) {
-    // Se il cookie del token non è presente, reindirizza all pagina di login
+    // Se il cookie del token non è presente, reindirizza alla pagina di login
     header("Location: login.html");
     exit();
 }
@@ -12,7 +12,7 @@ if (!isset($_COOKIE['auth_token'])) {
 $token = $_COOKIE['auth_token'];
 
 // Verifica il token nel database
-$queryCheckToken = "SELECT id, username FROM utente WHERE token = :token";
+$queryCheckToken = "SELECT id, username FROM utenti WHERE token = :token";
 $stmtCheckToken = $connection->prepare($queryCheckToken);
 $stmtCheckToken->bindParam(':token', $token, PDO::PARAM_STR);
 $stmtCheckToken->execute();
@@ -37,16 +37,30 @@ if (!$user) {
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="stylesheet" href="login_style.css">
     <title>Dashboard</title>
-    <!-- Aggiungi eventuali stili o script necessari per la dashboard -->
+    <link rel="stylesheet" href="dashboard.css">
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 </head>
 
 <body>
-    <h1>Benvenuto nella Dashboard, <?php echo htmlspecialchars($user['username']); ?>!</h1>
+    <header>
+        <div class="user-info">
+            <h1>Benvenuto nella Dashboard, <?php echo htmlspecialchars($user['username']); ?>!</h1>
+        </div>
+    </header>
+
     <!-- Aggiungi il contenuto della tua dashboard qui -->
-    <ul>
-        <li><a href="logout.php?action=logout">Logout</a></li>
-    </ul>
-    
+    <div class="logout">
+        <a href="logout.php?action=logout">Logout</a>
+    </div>
+
+    <!-- Sezione Film Valutati -->
+    <section class="film-valutati-section">
+        <h2>Film Valutati</h2>
+        <a href="film_valutati.php">Vedi Film Valutati</a>
+
+        <!-- Qui puoi mostrare l'elenco dei film valutati dall'utente -->
+        <!-- Ad esempio, puoi fare riferimento al tuo database per recuperare le recensioni degli utenti -->
+    </section>
 </body>
 
 </html>

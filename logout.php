@@ -11,7 +11,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
     
     if ($userId) {
         // Elimina il token dal database
-        $deleteTokenQuery = "UPDATE utente SET token = NULL WHERE id = :id";
+        $deleteTokenQuery = "UPDATE utenti SET token = NULL WHERE id = :id";
         $deleteTokenStmt = $connection->prepare($deleteTokenQuery);
         $deleteTokenStmt->bindParam(':id', $userId, PDO::PARAM_INT);
         $deleteTokenStmt->execute();

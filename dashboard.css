@@ -1,0 +1,41 @@
+
+.user-info {
+    margin-right: auto;
+}
+
+
+
+/* Navigation styles */
+ul {
+    list-style: none;
+    margin: 10px;
+    padding: 0;
+}
+
+ul li {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+li i {
+    color: red;
+
+}
+
+/* Responsive styles */
+@media screen and (max-width: 600px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .user-info {
+        margin: 10px 0;
+    }
+}

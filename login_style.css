@@ -47,7 +47,7 @@ body {
 }
 
 .logo {
-    position: absolute;
+    position: fixed;
     top: 2px;
     left: 10px;
 }
