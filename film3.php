@@ -49,9 +49,9 @@ if (!$user) {
                 <i class="bx bx-search"></i>
             </div>
             <div class="user" id="userDropdown">
-                <img src="immagini/dc_strange.jpeg" alt="" class="user-img">
+                <img src="uploads/userImage.jpg" alt="" class="user-img">
                 <div class="user-dropdown-content">
-                    <a href="#">Profilo</a>
+                    <a href="profilo.php">Profilo</a>
                     <a href="#">Preferiti</a>
                     <a href="logout.php?action=logout">Logout</a>
                 </div>

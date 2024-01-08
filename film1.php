@@ -49,9 +49,9 @@ if (!$user) {
                 <i class="bx bx-search"></i>
             </div>
             <div class="user" id="userDropdown">
-                <img src="immagini/dc_strange.jpeg" alt="" class="user-img">
+                <img src="uploads/userImage.jpg" alt="" class="user-img">
                 <div class="user-dropdown-content">
-                    <a href="#">Profilo</a>
+                    <a href="profilo.php">Profilo</a>
                     <a href="#">Preferiti</a>
                     <a href="logout.php?action=logout">Logout</a>
                 </div>
@@ -84,9 +84,14 @@ if (!$user) {
         <div class="neutral-page">
             <div class="neutral-left">
                 <img src="immagini/wk4.jpeg" alt="Movie Image">
-                <button id="addToFavoritesBtn">
-        <i class='bx bxs-heart'></i> Aggiungi ai Preferiti
+                <form class="add-favorite-form" id="addFavoriteForm">
+    <input type="hidden" name="movieId" value="1">
+    <button id="addToFavoritesBtn" type="button" onclick="addToFavorites()">
+        Aggiungi ai preferiti <i class='bx bxs-heart'></i>
     </button>
+    <div id="notification"></div>
+</form>
+
             </div>
             <div class="neutral-right">
                 <iframe class="neutral-trailer" src="https://www.youtube.com/embed/Tr0jSdADqjw?si=eDhuE_EfsdVCbcQc"  frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -101,6 +106,6 @@ if (!$user) {
         </div>
     </div>
     <script src="https://unpkg.com/boxicons@2.1.1/js/boxicons.min.js"></script>
-    <script src="aggiungi_ai_preferiti.js"></script>
+    <script src="favourites.js"></script>
 </body>
 </html>

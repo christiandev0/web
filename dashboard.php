@@ -50,9 +50,9 @@ if (!$user) {
                     <i class="bx bx-search"></i>
                 </div>
                 <div class="user" id="userDropdown">
-                    <img src="immagini/dc_strange.jpeg" alt="" class="user-img">
+                    <img src="uploads/userImage.jpg" alt="" class="user-img">
                     <div class="user-dropdown-content">
-                        <a href="#">Profilo</a>
+                        <a href="profilo.php">Profilo</a>
                         <a href="#">Preferiti</a>
                         <a href="logout.php?action=logout">Logout</a>
                     </div>
@@ -84,18 +84,24 @@ if (!$user) {
         <section class="home container" id="home">
             <div class="carousel">
                 <div class="carousel__item">
-                    <a href="film1.html">
+                    <a href="film1.php">
                         <img src="immagini/wk4.jpeg" alt="Black Panther wakanda forever">
                     </a>
                 </div>
                 <div class="carousel__item">
+                <a href="film2.php">
                     <img src="immagini/thor4.jpeg" alt="Thor4">
+                    </a>
                 </div>
                 <div class="carousel__item">
+                <a href="film4.php">
                     <img src="immagini/dc_strange.jpeg" alt="Doctor strange">
+                    </a>
                 </div>
                 <div class="carousel__item">
+                <a href="film3.php">
                     <img src="immagini/ggvol3.jpeg" alt="Guardiani della galassia">
+                    </a>
                 </div>
                 <!-- Altri elementi del carousel -->
             </div>

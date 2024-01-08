@@ -2,19 +2,47 @@
 session_start();
 $connection = require __DIR__ . '/connessioneDB.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $filmId = $_GET['film_id'];
-    $userId = $_SESSION['user_id']; // Assicurati di avere l'ID dell'utente disponibile in sessione
+// Assicurati che l'utente sia autenticato
+if (!isset($_COOKIE['auth_token'])) {
+    header("Location: login.html");
+    exit();
+}
 
-    // Esempio di query SQL per rimuovere il film dai preferiti
-    $query = "DELETE FROM preferiti WHERE id_utente = :id_utente AND id_film = :id_film";
-    $stmt = $connection->prepare($query);
-    $stmt->bindParam(':id_utente', $userId, PDO::PARAM_INT);
-    $stmt->bindParam(':id_film', $filmId, PDO::PARAM_INT);
-    $stmt->execute();
+$token = $_COOKIE['auth_token'];
 
-    // Puoi aggiungere ulteriori controlli e gestire eventuali errori
+// Verifica il token nel database
+$queryCheckToken = "SELECT id FROM utenti WHERE token = :token";
+$stmtCheckToken = $connection->prepare($queryCheckToken);
+$stmtCheckToken->bindParam(':token', $token, PDO::PARAM_STR);
+$stmtCheckToken->execute();
 
-    echo "Film rimosso dai preferiti con successo";
+$user = $stmtCheckToken->fetch(PDO::FETCH_ASSOC);
+
+if (!$user) {
+    header("Location: login.html");
+    exit();
+}
+
+// Assicurati che venga inviato l'id del film da rimuovere
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["movieId"])) {
+    $movieId = $_POST["movieId"];
+
+    // Esegui la query per rimuovere il film dai preferiti
+    $removeFavoriteQuery = "DELETE FROM preferiti WHERE id_film = :movieId AND id_utente = :userId";
+    $stmtRemoveFavorite = $connection->prepare($removeFavoriteQuery);
+    $stmtRemoveFavorite->bindParam(':movieId', $movieId, PDO::PARAM_INT);
+    $stmtRemoveFavorite->bindParam(':userId', $user['id'], PDO::PARAM_INT);
+
+    // Esegui la query di eliminazione e gestisci il risultato
+    if ($stmtRemoveFavorite->execute()) {
+        echo "Film rimosso con successo";
+    } else {
+        echo "Errore durante la rimozione del film";
+    }
+
+    // Puoi aggiungere ulteriori controlli o reindirizzamenti qui, se necessario
+    // Ad esempio, potresti reindirizzare l'utente dopo la rimozione
+    header("Location: profilo.php");
+    exit();
 }
 ?>

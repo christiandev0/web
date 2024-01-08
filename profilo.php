@@ -24,8 +24,13 @@ if (!$user) {
     header("Location: login.html");
     exit();
 }
+require_once 'get_preferred_movies.php';
+
+// Chiamare la funzione per ottenere i film preferiti
+$preferredMovies = getPreferredMovies($user['id']);
 
 // Se l'utente è autenticato, visualizza il contenuto della dashboard
+
 ?>
 <!DOCTYPE html>
 <html lang="it">
@@ -33,15 +38,16 @@ if (!$user) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thor Love and Thunder</title>
+    <title>Profilo Utente</title>
     <link rel="stylesheet" href="dashboard_style.css">
+    <link rel="stylesheet" href="profilo.css">
     <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css">
-    <link rel="stylesheet" href="film_style.css">
+ 
 </head>
 <body>
     <header>
         <div class="nav container">
-            <a href="index.html" class="logo">
+            <a href="dashboard.php" class="logo">
                 Mover
             </a>
             <div class="search-box">
@@ -57,23 +63,23 @@ if (!$user) {
                 </div>
             </div>
             <div class="navbar">
-                <a href="dashboard.php#home" class="nav-link" nav-active> <!-- Aggiunto "#home" -->
+                <a href="dashboard.php#home" class="nav-link" nav-active>
                     <i class="bx bx-home"></i>
                     <span class="nav-link-title">Home</span>
                 </a>
-                <a href="dashboard.php#popular" class="nav-link"> <!-- Aggiunto "#popular" -->
+                <a href="dashboard.php#popular" class="nav-link">
                     <i class="bx bxs-hot"></i>
                     <span class="nav-link-title">Popolari</span>
                 </a>
-                <a href="dashboard.php#Esplora" class="nav-link"> <!-- Aggiunto "#Esplora" -->
+                <a href="dashboard.php#Esplora" class="nav-link">
                     <i class="bx bx-compass"></i>
                     <span class="nav-link-title">Esplora</span>
                 </a>
-                <a href="dashboard.php#series" class="nav-link"> <!-- Aggiunto "#series" -->
+                <a href="dashboard.php#series" class="nav-link">
                     <i class='bx bxs-movie'></i>
                     <span class="nav-link-title">Serie TV</span>
                 </a>
-                <a href="dashboard.php#Preferiti" class="nav-link"> <!-- Aggiunto "#Preferiti" -->
+                <a href="#dashboard.phpPreferiti" class="nav-link">
                     <i class='bx bxs-heart'></i>
                     <span class="nav-link-title">Preferiti</span>
                 </a>
@@ -81,25 +87,32 @@ if (!$user) {
         </div>
     </header>
     <div class="container">
-        <div class="neutral-page">
-            <div class="neutral-left">
-                <img src="immagini/thor4.jpeg" alt="Movie Image">
-                <button id="addToFavoritesBtn">
-        <i class='bx bxs-heart'></i> Aggiungi ai Preferiti
-    </button>
+        <div class="profile-container">
+            <img src="uploads/userImage.jpg" alt="User Image" class="big-user-img">
+            <h2><?php echo $user['username']; ?></h2>
+            <div class="favorites-container">
+                <!-- Mostra i film preferiti come cards -->
+                <?php foreach ($preferredMovies as $movie): ?>
+                    <div class="favorites-card">
+                        <img src="<?php echo $movie['immagine']; ?>" alt="<?php echo $movie['titolo']; ?>">
+                        <h3><?php echo $movie['titolo']; ?></h3>
+                        <form class="remove-favorite-form" action="rimozione_preferiti.php" method="post">
+                            <input type="hidden" name="movieId" value="<?php echo $movie['id']; ?>">
+                            <button type="submit">Rimuovi dai preferiti</button>
+                        </form>
+                    </div>
+<?php endforeach; ?>
             </div>
-            <div class="neutral-right">
-                <iframe class="neutral-trailer" src="https://www.youtube.com/embed/5mKjfZHDn_M?si=5uixr7TAhqT5lq77" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                <p class="neutral-description">In "Thor: Love and Thunder" dei Marvel Studios, il Dio del Tuono si allea con Re Valchiria, Korg e la sua ex fidanzata Jane Foster, trasformata in Possente Thor, per affrontare un assassino galattico noto come Gorr il Macellatore di Dei..</p>
-                <div class="line-separator"></div>
-                <p class="big-description">"Thor: Love and Thunder", prodotto dai Marvel Studios,
-                 presenta il Dio del Tuono in un viaggio alla scoperta di sé stesso. Ma i suoi sforzi vengono ostacolati da un assassino galattico noto come Gorr il Macellatore di Dei,
-                  che persegue l'estinzione degli Dei. Per combattere la minaccia, Thor ottiene l'aiuto di Re Valchiria, di Korg e della sua ex fidanzata Jane Foster che, con grande sorpresa di Thor,
-                   impugna inspiegabilmente il suo martello magico, Mjolnir, come il Possente Thor. Insieme, intraprendono una tormentata avventura cosmica per risalire al mistero della vendetta del Macellatore di Dei e fermarlo prima che sia troppo tardi.
-                    Alcune scene con luci lampeggianti o motivi grafici potrebbero danneggiare gli spettatori fotosensibili.</p>
-            </div>
-        </div>
+            <div class="profile-actions">
+    <button id="editProfileButton">Modifica Profilo</button>
+    <div class="edit-profile-menu">
+        <a href="modify_username.php">Modifica Username</a>
+        <a href="#" id="modifyImageLink">Modifica Immagine</a>
+        <a href="delete_account.php">Elimina Account</a>
     </div>
+    <a href="logout.php" class="logout-button">Logout</a>
+</div>
     <script src="https://unpkg.com/boxicons@2.1.1/js/boxicons.min.js"></script>
+    <script src="modify_profile.js"></script>
 </body>
 </html>

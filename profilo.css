@@ -1,0 +1,220 @@
+body {
+    background: linear-gradient(-45deg, #2d2c2c, #323333, #020202, #2d2c2c);
+    background-size: 1000% 1000%;
+    animation: gradient 15s ease infinite;
+    font-family: "Poppins", sans-serif;
+    color: white;
+    margin: 0;
+}
+
+.container {
+    max-width: 1000px;
+    margin: auto;
+    width: 100%;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: var(--body-color);
+    z-index: 100;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 0;
+}
+
+.logo {
+    font-size: 1.5rem;
+    color: var(--text-color);
+    font-weight: 500;
+    text-transform: uppercase;
+    margin: 0 auto 0 0;
+}
+
+.search-box {
+    max-width: 240px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    column-gap: 0.7rem;
+    padding: 10px 17px;
+    background: var(--container-color);
+    border-radius: 3rem;
+    margin-right: 1rem;
+}
+
+.search-box .bx {
+    font-size: 1.1rem;
+}
+
+.search-box .bx:hover {
+    color: var(--main-color);
+}
+
+#search-input {
+    width: 100%;
+    border: none;
+    outline: none;
+    color: var(--text-color);
+    background: transparent;
+    font-size: 1rem;
+}
+
+.user {
+    display: flex;
+    align-items: center;
+}
+
+.user-img {
+    width: 35px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+    margin-right: 10px;
+}
+
+.profile-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 80px;
+}
+
+.big-user-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+    margin-top: 50px;
+}
+
+.favorites-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.favorites-card {
+    max-width: 200px;
+    background: var(--container-color);
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: center;
+}
+
+.favorites-card img {
+    width: 100%;
+    height: auto;
+    border-bottom: 2px solid var(--main-color);
+}
+
+.favorites-card h3 {
+    padding: 10px;
+    margin: 0;
+}
+
+.profile-actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.profile-actions a {
+    text-decoration: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: 1px solid white;
+}
+
+.profile-actions a:hover {
+    background-color: var(--main-color);
+}
+
+.edit-profile-menu {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    top: 420px;
+    margin-left: -45px;
+}
+
+.edit-profile-menu a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.edit-profile-menu a:hover {
+    background-color: #bbb7b7;
+}
+
+.edit-profile-menu.show {
+    display: block;
+}
+
+.profile-actions button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+.profile-actions button:hover {
+    background-color: darkred;
+}
+
+/* Usa la stessa classe 'profile-actions' anche per il bottone di logout */
+.profile-actions a.logout-button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+.profile-actions a.logout-button:hover {
+    background-color: darkred;
+}
+
+.remove-favorite-form button {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    opacity: 0; /* Nascondi inizialmente il pulsante di rimozione */
+    transition: opacity 0.3s ease;
+}
+
+.favorites-card:hover .remove-favorite-form button {
+    opacity: 1;
+}
+
+.remove-favorite-form button:hover {
+    background-color: #ff3333;
+}
+
