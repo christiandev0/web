@@ -1,0 +1,34 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+    
+}
+
+body {
+    background-image: url('immagini/BPWFbgimage.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: 0;  /* Imposta il margine a 0 per occupare completamente lo spazio */
+    font-family: Arial, sans-serif;
+    opacity: 2;
+    width: 100vw;  /* Imposta la larghezza al 100% della larghezza della viewport */
+    height: 100vh;  /* Imposta l'altezza al 100% dell'altezza della viewport */
+}
+
+p {
+    margin: 1em 0;
+    color: white;
+}
+
+#logo {
+    width: 15vw;
+    max-width: 150px;
+    position: absolute;
+    top: 5vh;
+    left: 5vw;
+}
+
+
