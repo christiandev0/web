@@ -52,8 +52,8 @@ if ($existingUser) {
 
 // L'utente non esiste, procedi con l'inserimento
 $password = password_hash($_POST["password1"], PASSWORD_DEFAULT); // Password criptata
-
-$query = "INSERT INTO utenti (username, email, password) VALUES (:username, :email, :password)";
+$imagePath = "uploads/default.png";
+$query = "INSERT INTO utenti (username, email, password, image_path) VALUES (:username, :email, :password, :imagePath)";
 $stmt = $connection->prepare($query);
 
 if (!$stmt) {
@@ -65,6 +65,7 @@ if (!$stmt) {
 $stmt->bindParam(':username', $username, PDO::PARAM_STR);
 $stmt->bindParam(':email', $email, PDO::PARAM_STR);
 $stmt->bindParam(':password', $password, PDO::PARAM_STR);
+$stmt->bindParam(':imagePath', $imagePath, PDO::PARAM_STR);
 
 if ($stmt->execute()) {
     // Ottieni l'ID appena inserito

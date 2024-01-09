@@ -38,7 +38,7 @@ $stmtGetImagePath->execute();
 $imagePathResult = $stmtGetImagePath->fetch(PDO::FETCH_ASSOC);
 
                 // Verifica se la query ha restituito un risultato
-if ($imagePathResult) {
+if ($imagePathResult && $imagePathResult['image_path'] !== "uploads/default.png") {
         $imagePath = $imagePathResult['image_path'];
         
 } else {

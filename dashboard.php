@@ -24,7 +24,7 @@ if (!$user) {
     header("Location: login.html");
     exit();
 }
-
+$imagePath = isset($_SESSION['image_path']) ? $_SESSION['image_path'] : "uploads/default.png";
 // Se l'utente è autenticato, visualizza il contenuto della dashboard
 ?>
 
@@ -50,7 +50,7 @@ if (!$user) {
                     <i class="bx bx-search"></i>
                 </div>
                 <div class="user" id="userDropdown">
-                    <img src="uploads/userImage.jpg" alt="" class="user-img">
+                <?php echo '<img  src="' . $imagePath . '" alt="" class="user-img">' ?>
                     <div class="user-dropdown-content">
                         <a href="profilo.php">Profilo</a>
                         <a href="#">Preferiti</a>
