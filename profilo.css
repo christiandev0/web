@@ -181,21 +181,10 @@ header {
     background-color: darkred;
 }
 
-/* Usa la stessa classe 'profile-actions' anche per il bottone di logout */
-.profile-actions a.logout-button {
-    background-color: red;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    cursor: pointer;
-}
 
-.profile-actions a.logout-button:hover {
-    background-color: darkred;
-}
 
 .remove-favorite-form button {
-    position: absolute;
+    position: relative; /* Aggiunto il position: relative */
     bottom: 10px;
     left: 50%;
     transform: translateX(-50%);
@@ -217,4 +206,42 @@ header {
 .remove-favorite-form button:hover {
     background-color: #ff3333;
 }
+
+#modifyUsernameSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+#newUsername {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid white;
+    border-radius: 5px;
+    background-color: transparent;
+    color: white;
+    font-size: 1rem;
+}
+
+#newUsername:focus {
+    outline: none;
+    border-color: var(--main-color); /* Colore durante il focus */
+}
+
+#modifyUsernameSection button {
+    background-color: var(--main-color);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+#modifyUsernameSection button:hover {
+    background-color: #0056b3; /* Cambia colore al passaggio del mouse */
+}
+
 

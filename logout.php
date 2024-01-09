@@ -20,8 +20,9 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
         setcookie('auth_token', '', time() - 3600, '/'); // Tempo negativo per eliminare il cookie
 
         // Reindirizza alla pagina di login
-        session_destroy();
+        
         header('Location: index.html');
+        session_destroy();
         exit();
     }
 }

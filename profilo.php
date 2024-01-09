@@ -106,13 +106,24 @@ $preferredMovies = getPreferredMovies($user['id']);
             <div class="profile-actions">
     <button id="editProfileButton">Modifica Profilo</button>
     <div class="edit-profile-menu">
-        <a href="modify_username.php">Modifica Username</a>
+        <a href="#" id="modifyUsernameLink">Modifica Username</a>
         <a href="#" id="modifyImageLink">Modifica Immagine</a>
-        <a href="delete_account.php">Elimina Account</a>
+        <a href="#" id="deleteAccountLink" onclick="confirmDelete()">Elimina Account</a>
     </div>
-    <a href="logout.php" class="logout-button">Logout</a>
 </div>
+<form id="deleteAccountForm" action="delete_profile.php" method="post" style="display: none;">
+        <input type="hidden" name="confirmDelete" value="1">
+        <button type="submit">Elimina Account</button>
+    </form>
+<div id="modifyUsernameSection" style="display: none;">
+    <input type="text" id="newUsername" placeholder="Nuovo Username">
+    <button onclick="modifyUsername()">Salva</button>
+</div>
+
     <script src="https://unpkg.com/boxicons@2.1.1/js/boxicons.min.js"></script>
     <script src="modify_profile.js"></script>
+    <script src="modify_username.js"></script>
+    <script src="delete_profile.js"></script>
+   
 </body>
 </html>
