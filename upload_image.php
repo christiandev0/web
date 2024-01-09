@@ -22,14 +22,18 @@ if (!$user) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["fileToUpload"])) {
-    $target_dir = "uploads/";
+    $target_dir = "uploads/user_images/user_" . $user['id'] . "/";
+    if (!is_dir($target_dir)) {
+        // Crea la directory se non esiste
+        mkdir($target_dir, 0755, true);
+    }
     $originalFileName = basename($_FILES["fileToUpload"]["name"]);
     $target_file = $target_dir . $originalFileName;
     $uploadOk = 1;
     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
     // Verifica se il file è un'immagine effettiva o un falso positivo
-    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+    $check = exif_imagetype($_FILES["fileToUpload"]["tmp_name"]);
     if ($check === false) {
         echo "File is not an image.";
         $uploadOk = 0;
@@ -54,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["fileToUpload"])) {
         $newFileName = "userImage.jpg";
         $newFilePath = $target_dir . $newFileName;
 
-        $originalImage = imagecreatefrompng($_FILES["fileToUpload"]["tmp_name"]);
+        $originalImage = imagecreatefromstring(file_get_contents($_FILES["fileToUpload"]["tmp_name"]));
         $newImage = imagecreatetruecolor(imagesx($originalImage), imagesy($originalImage));
         $white = imagecolorallocate($newImage, 255, 255, 255);
         imagefill($newImage, 0, 0, $white);
@@ -81,6 +85,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["fileToUpload"])) {
             $newFilePath = $target_dir . $newFileName;
             if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $newFilePath)) {
                 echo "The file " . $originalFileName . " has been uploaded.";
+                
                 // Aggiorna il percorso dell'immagine del profilo dell'utente nel database
                 $updateImageQuery = "UPDATE utenti SET image_path = :imagePath WHERE id = :userId";
                 $stmtUpdateImage = $connection->prepare($updateImageQuery);

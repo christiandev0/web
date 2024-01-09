@@ -59,6 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Puoi gestire la risposta del server qui, se necessario
                     console.log(xhr.responseText);
                     alert("Immagine caricata con successo!");
+                    location.reload();
                 } else {
                     // Se ci sono errori, puoi gestirli qui
                     console.error("Errore durante l'upload dell'immagine.");

@@ -28,6 +28,10 @@ require_once 'get_preferred_movies.php';
 
 // Chiamare la funzione per ottenere i film preferiti
 $preferredMovies = getPreferredMovies($user['id']);
+$imageID = $user['id'];
+$imagePath = "uploads/user_images/user_$imageID/userImage.jpeg";
+
+
 
 // Se l'utente è autenticato, visualizza il contenuto della dashboard
 
@@ -55,7 +59,7 @@ $preferredMovies = getPreferredMovies($user['id']);
                 <i class="bx bx-search"></i>
             </div>
             <div class="user" id="userDropdown">
-                <img src="uploads/userImage.jpg" alt="" class="user-img">
+            <?php echo '<img  src="' . $imagePath . '" alt="" class="user-img">' ?>
                 <div class="user-dropdown-content">
                     <a href="profilo.php">Profilo</a>
                     <a href="#">Preferiti</a>
@@ -88,7 +92,7 @@ $preferredMovies = getPreferredMovies($user['id']);
     </header>
     <div class="container">
         <div class="profile-container">
-            <img src="uploads/userImage.jpg" alt="User Image" class="big-user-img">
+        <?php echo '<img  src="' . $imagePath . '" alt="User Image" class="big-user-img">' ?>
             <h2><?php echo $user['username']; ?></h2>
             <div class="favorites-container">
                 <!-- Mostra i film preferiti come cards -->
