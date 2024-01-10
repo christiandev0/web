@@ -25,6 +25,21 @@ if (!$user) {
     exit();
 }
 
+$queryGetImagePath = "SELECT image_path FROM utenti WHERE id = :userId";
+$stmtGetImagePath = $connection->prepare($queryGetImagePath);
+$stmtGetImagePath->bindParam(':userId', $user['id'], PDO::PARAM_INT);
+$stmtGetImagePath->execute();
+
+$imagePathResult = $stmtGetImagePath->fetch(PDO::FETCH_ASSOC);
+
+                // Verifica se la query ha restituito un risultato
+if ($imagePathResult && $imagePathResult['image_path'] !== "uploads/default.png") {
+        $imagePath = $imagePathResult['image_path'];
+        
+} else {
+                    // Se la query non ha restituito un risultato, assegna un valore di default o gestisci l'errore in modo appropriato
+    $imagePath = "uploads/default.png"; // Sostituisci con il percorso dell'immagine di default
+        }
 // Se l'utente è autenticato, visualizza il contenuto della dashboard
 ?>
 <!DOCTYPE html>
@@ -33,7 +48,7 @@ if (!$user) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thor Love and Thunder</title>
+    <title>Black Panther Wakanda Forever</title>
     <link rel="stylesheet" href="dashboard_style.css">
     <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css">
     <link rel="stylesheet" href="film_style.css">
@@ -49,7 +64,7 @@ if (!$user) {
                 <i class="bx bx-search"></i>
             </div>
             <div class="user" id="userDropdown">
-                <img src="uploads/userImage.jpg" alt="" class="user-img">
+            <?php echo '<img  src="' . $imagePath . '" alt="" class="user-img">' ?>
                 <div class="user-dropdown-content">
                     <a href="profilo.php">Profilo</a>
                     <a href="#">Preferiti</a>
@@ -83,13 +98,18 @@ if (!$user) {
     <div class="container">
         <div class="neutral-page">
             <div class="neutral-left">
-                <img src="immagini/thor4.jpeg" alt="Movie Image">
-                <button id="addToFavoritesBtn">
-        <i class='bx bxs-heart'></i> Aggiungi ai Preferiti
+                <img src="immagini/film/film2.jpeg" alt="Movie Image">
+                <form class="add-favorite-form" id="addFavoriteForm">
+    <input type="hidden" name="movieId" value="2">
+    <button id="addToFavoritesBtn" type="button" onclick="addToFavorites('Thor Love and Thunder')">
+        Aggiungi ai preferiti <i class='bx bxs-heart'></i>
     </button>
+    <div id="notification"></div>
+</form>
+
             </div>
             <div class="neutral-right">
-                <iframe class="neutral-trailer" src="https://www.youtube.com/embed/5mKjfZHDn_M?si=5uixr7TAhqT5lq77" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe class="neutral-trailer" src="https://www.youtube.com/embed/5mKjfZHDn_M?si=6VpDZPUR6h4IXtwo"  frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 <p class="neutral-description">In "Thor: Love and Thunder" dei Marvel Studios, il Dio del Tuono si allea con Re Valchiria, Korg e la sua ex fidanzata Jane Foster, trasformata in Possente Thor, per affrontare un assassino galattico noto come Gorr il Macellatore di Dei..</p>
                 <div class="line-separator"></div>
                 <p class="big-description">"Thor: Love and Thunder", prodotto dai Marvel Studios,
@@ -101,5 +121,6 @@ if (!$user) {
         </div>
     </div>
     <script src="https://unpkg.com/boxicons@2.1.1/js/boxicons.min.js"></script>
+    <script src="favourites.js"></script>
 </body>
 </html>

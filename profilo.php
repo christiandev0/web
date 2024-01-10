@@ -114,7 +114,9 @@ if ($imagePathResult && $imagePathResult['image_path'] !== "uploads/default.png"
                 <!-- Mostra i film preferiti come cards -->
                 <?php foreach ($preferredMovies as $movie): ?>
                     <div class="favorites-card">
+                        <a href="<?php echo 'film' . $movie['id'] . '.php'; ?>">
                         <img src="<?php echo $movie['immagine']; ?>" alt="<?php echo $movie['titolo']; ?>">
+                        </a>
                         <h3><?php echo $movie['titolo']; ?></h3>
                         <form class="remove-favorite-form" action="rimozione_preferiti.php" method="post">
                             <input type="hidden" name="movieId" value="<?php echo $movie['id']; ?>">

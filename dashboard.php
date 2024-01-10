@@ -24,7 +24,22 @@ if (!$user) {
     header("Location: login.html");
     exit();
 }
-$imagePath = isset($_SESSION['image_path']) ? $_SESSION['image_path'] : "uploads/default.png";
+
+// Ottenere il percorso dell'immagine dal database
+$queryGetImagePath = "SELECT image_path FROM utenti WHERE id = :userId";
+$stmtGetImagePath = $connection->prepare($queryGetImagePath);
+$stmtGetImagePath->bindParam(':userId', $user['id'], PDO::PARAM_INT);
+$stmtGetImagePath->execute();
+
+$imagePathResult = $stmtGetImagePath->fetch(PDO::FETCH_ASSOC);
+
+// Verifica se la query ha restituito un risultato
+if ($imagePathResult && !empty($imagePathResult['image_path'])) {
+    $imagePath = $imagePathResult['image_path'];
+} else {
+    // Se la query non ha restituito un risultato o il percorso è vuoto, assegna un valore di default
+    $imagePath = "uploads/default.png"; // Sostituisci con il percorso dell'immagine di default
+}
 // Se l'utente è autenticato, visualizza il contenuto della dashboard
 ?>
 
@@ -66,18 +81,11 @@ $imagePath = isset($_SESSION['image_path']) ? $_SESSION['image_path'] : "uploads
                         <i class="bx bxs-hot"></i>
                         <span class="nav-link-title">Popolari</span>
                     </a>
-                    <a href="#Esplora" class="nav-link">
-                        <i class="bx bx-compass"></i>
-                        <span class="nav-link-title">Esplora</span>
-                    </a>
                     <a href="#series" class="nav-link">
                         <i class='bx bxs-movie'></i>
                         <span class="nav-link-title">Serie TV</span>
                     </a>
-                    <a href="#Preferiti" class="nav-link">
-                        <i class='bx bxs-heart'></i>
-                        <span class="nav-link-title">Preferiti</span>
-                    </a>
+
                 </div>
             </div>
         </header>
@@ -85,28 +93,25 @@ $imagePath = isset($_SESSION['image_path']) ? $_SESSION['image_path'] : "uploads
             <div class="carousel">
                 <div class="carousel__item">
                     <a href="film1.php">
-                        <img src="immagini/wk4.jpeg" alt="Black Panther wakanda forever">
+                        <img src="immagini/film/film1.jpeg" alt="Black Panther wakanda forever">
                     </a>
                 </div>
                 <div class="carousel__item">
                 <a href="film2.php">
-                    <img src="immagini/thor4.jpeg" alt="Thor4">
+                    <img src="immagini/film/film2.jpeg" alt="Thor4">
                     </a>
                 </div>
                 <div class="carousel__item">
                 <a href="film4.php">
-                    <img src="immagini/dc_strange.jpeg" alt="Doctor strange">
+                    <img src="immagini/film/film3.jpeg" alt="Doctor strange">
                     </a>
                 </div>
                 <div class="carousel__item">
                 <a href="film3.php">
-                    <img src="immagini/ggvol3.jpeg" alt="Guardiani della galassia">
+                    <img src="immagini/film/film4.jpeg" alt="Guardiani della galassia">
                     </a>
                 </div>
                 <!-- Altri elementi del carousel -->
-            </div>
-            <div class="home-text">
-                <h1 class="home-title">Popolari <br></h1>
             </div>
         </section>
         <section class="popular container" id="popular">
@@ -117,40 +122,94 @@ $imagePath = isset($_SESSION['image_path']) ? $_SESSION['image_path'] : "uploads
             <div class="popular-movie-cards">
                 <div class="movie-card">
                     <a href="film1.php">
-                        <img src="immagini/wk4.jpeg" alt="Black Panther Wakanda Forever">
-                        <h3 class="movie-card__title">Black Panther Wakanda Forever</h3>
+                        <img src="immagini/film/film1.jpeg" alt="Black Panther Wakanda Forever">
+                        <h2 class="movie-card__title">Black Panther Wakanda Forever</h2>
                     </a>
                 </div>
                 <div class="movie-card">
                     <a href="film2.php">
-                        <img src="immagini/thor4.jpeg" alt="Thor 4">
+                        <img src="immagini/film/film2.jpeg" alt="Thor Love and Thunder">
                         <h3 class="movie-card__title">Thor Love and Thunder</h3>
                     </a>
                 </div>
                 <div class="movie-card">
                     <a href="film3.php">
-                        <img src="immagini/ggvol3.jpeg" alt="Guardiani della Galassia vol3">
+                        <img src="immagini/film/film3.jpeg" alt="Guardiani della Galassia vol3">
                         <h3 class="movie-card__title">Guardiani della Galassia Vol.3</h3>
                     </a>
                 </div>
                 <div class="movie-card">
                     <a href="film4.php">
-                        <img src="immagini/dc_strange.jpeg" alt="doc strange">
-                        <h3 class="movie-card__title">Doctor Strange in the Multiverse of Madness</h3>
+                        <img src="immagini/film/film4.jpeg" alt="doc strange">
+                        <h3 class="movie-card__title">Doctor Strange <br> in the Multiverse of Madness</h3>
                     </a>
                 </div>
                 <div class="movie-card">
                     <a href="film5.php">
-                        <img src="immagini/oppenheimer.jpg" alt="Oppenheimer">
+                        <img src="immagini/film/film5.jpg" alt="Oppenheimer">
                         <h3 class="movie-card__title">Oppenheimer</h3>
                     </a>
                 </div>
                 <div class="movie-card">
                     <a href="film6.php">
-                        <img src="immagini/john-wick-4.jpg" alt="John-wick-4">
+                        <img src="immagini/film/film6.jpg" alt="John-wick-4">
                         <h3 class="movie-card__title">John Wick 4</h3>
                     </a>
                 </div>
+                <div class="movie-card">
+                <a href="film7.php">
+                    <img src="immagini/film/film7.png" alt="Sonic 2">
+                    <h3 class="movie-card__title">Sonic 2</h3>
+                </a>
+            </div>
+            <div class="movie-card">
+                <a href="film8.php">
+                    <img src="immagini/film/film8.png" alt="Morbius">
+                    <h3 class="movie-card__title">Morbius</h3>
+                </a>
+            </div>
+            <div class="movie-card">
+                <a href="film9.php">
+                    <img src="immagini/film/film9.png" alt="Free Guy">
+                    <h3 class="movie-card__title">Free Guy</h3>
+                </a>
+            </div>
+            <div class="movie-card">
+                <a href="film10.php">
+                    <img src="immagini/film/film10.png" alt="The Batman">
+                    <h3 class="movie-card__title">The Batman</h3>
+                </a>
+            </div>
+            <div class="movie-card">
+                <a href="film11.php">
+                    <img src="immagini/film/film11.png" alt="uncharted">
+                    <h3 class="movie-card__title">uncharted</h3>
+                </a>
+            </div>
+            <div class="movie-card">
+                <a href="film12.php">
+                    <img src="immagini/film/film12.png" alt="Death on the nile">
+                    <h3 class="movie-card__title">Death on the nile</h3>
+                </a>
+            </div>
+            <div class="movie-card">
+                <a href="film13.php">
+                    <img src="immagini/film/film13.jpg" alt="jumanji">
+                    <h3 class="movie-card__title">jumanji</h3>
+                </a>
+            </div>
+            <div class="movie-card">
+                <a href="film14.php">
+                    <img src="immagini/film/film14.jpeg" alt="Quantumania">
+                    <h3 class="movie-card__title">Quantumania</h3>
+                </a>
+            </div>
+            <div class="movie-card">
+                <a href="film15.php">
+                    <img src="immagini/film/film15.jpeg" alt="Eternals">
+                    <h3 class="movie-card__title">Eternals</h3>
+                </a>
+            </div>
             </div>
         </section>
         <section class="series container" id="series">
@@ -187,6 +246,12 @@ $imagePath = isset($_SESSION['image_path']) ? $_SESSION['image_path'] : "uploads
                     <a href="serie5.php">
                         <img src="immagini/serietv/st-things.jpg" alt="Stranger Things">
                         <h3 class="series-card__title">Stranger Things</h3>
+                    </a>
+                </div>
+                <div class="series-card">
+                    <a href="serie6.php">
+                        <img src="immagini/serietv/series-4.png" alt="Vikings">
+                        <h3 class="series-card__title">Vikings Valhalla</h3>
                     </a>
                 </div>
                 <!-- Aggiungi altre cards per le Serie TV come necessario -->

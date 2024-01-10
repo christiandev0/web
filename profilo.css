@@ -244,4 +244,22 @@ header {
     background-color: #0056b3; /* Cambia colore al passaggio del mouse */
 }
 
+@media only screen and (max-width: 768px) {
+    /* Regole CSS specifiche per schermi con larghezza massima di 768px */
+    .nav {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 
+    .logo {
+        margin-bottom: 10px;
+    }
+
+    .search-box {
+        margin: 10px 0;
+    }
+
+    .user {
+        margin-top: 10px;
+    }
+}

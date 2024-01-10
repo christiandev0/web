@@ -40,6 +40,7 @@ if ($imagePathResult && $imagePathResult['image_path'] !== "uploads/default.png"
                     // Se la query non ha restituito un risultato, assegna un valore di default o gestisci l'errore in modo appropriato
     $imagePath = "uploads/default.png"; // Sostituisci con il percorso dell'immagine di default
         }
+
 // Se l'utente è autenticato, visualizza il contenuto della dashboard
 ?>
 <!DOCTYPE html>
@@ -48,7 +49,7 @@ if ($imagePathResult && $imagePathResult['image_path'] !== "uploads/default.png"
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Black Panther Wakanda Forever</title>
+    <title>Doctor Strange in the Multiverse of Madness</title>
     <link rel="stylesheet" href="dashboard_style.css">
     <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css">
     <link rel="stylesheet" href="film_style.css">
@@ -98,9 +99,9 @@ if ($imagePathResult && $imagePathResult['image_path'] !== "uploads/default.png"
     <div class="container">
         <div class="neutral-page">
             <div class="neutral-left">
-                <img src="immagini/film/film3.jpeg" alt="Movie Image">
+                <img src="immagini/film/film4.jpeg" alt="Movie Image">
                 <form class="add-favorite-form" id="addFavoriteForm">
-    <input type="hidden" name="movieId" value="3">
+    <input type="hidden" name="movieId" value="4">
     <button id="addToFavoritesBtn" type="button" onclick="addToFavorites()">
         Aggiungi ai preferiti <i class='bx bxs-heart'></i>
     </button>
@@ -109,14 +110,12 @@ if ($imagePathResult && $imagePathResult['image_path'] !== "uploads/default.png"
 
             </div>
             <div class="neutral-right">
-                <iframe class="neutral-trailer" src="https://www.youtube.com/embed/5mKjfZHDn_M?si=6VpDZPUR6h4IXtwo"  frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                <p class="neutral-description">In “Guardiani della Galassia Vol. 3", i nostri amati disadattati si stanno stabilendo nella vita su Knowhere. Ma non passa molto tempo prima che le loro vite vengano sconvolte dagli echi del turbolento passato di Rocket.
-                    Peter Quill deve radunare la sua squadra attorno a sé in una missione pericolosa per salvare la vita di Rocket, una missione che, se non completata con successo, potrebbe portare alla fine dei Guardiani come li conosciamo.</p>
+                <iframe class="neutral-trailer" src="https://www.youtube.com/embed/DkqjdOIi6tk?si=Qf1z9aVutMzTp9nQ"  frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <p class="neutral-description">In “Doctor Strange in the Multiverse of Madness” dei Marvel Studios, l’MCU sblocca il Multiverso e spinge i suoi confini più lontano che mai. Viaggia nell'ignoto con Doctor Strange, che, con l'aiuto di mistici alleati vecchi e nuovi,
+                     attraversa le sconvolgenti e pericolose realtà alternative del Multiverso per affrontare un nuovo misterioso avversario.</p>
                 <div class="line-separator"></div>
-                <p class="big-description">In “Guardiani della Galassia Vol. 3”, la nostra amata banda di disadattati ha un aspetto un po’ diverso in questi giorni. Dopo aver acquisito Knowhere dal Collezionista,
-                     troviamo i Guardiani che lavorano per riparare il danno estremo causato da Thanos, determinati a rendere Knowhere un rifugio sicuro, non solo per se stessi, ma per tutti i rifugiati sfollati dal duro universo.
-                      Ma non passa molto tempo prima che le loro vite vengano sconvolte dagli echi del turbolento passato di Rocket. Peter Quill, ancora scosso dalla perdita di Gamora, deve radunare la sua squadra attorno a sé in una pericolosa missione per salvare la vita di Rocket,
-                     una missione che, se non completata con successo, potrebbe portare alla fine dei Guardiani come li conosciamo. Alcune sequenze o schemi di luci lampeggianti potrebbero influenzare gli spettatori fotosensibili..</p>
+                <p class="big-description">In “Doctor Strange in the Multiverse of Madness” dei Marvel Studios, l’MCU sblocca il Multiverso e spinge i suoi confini più lontano che mai. Viaggia nell'ignoto con Doctor Strange, che,
+                     con l'aiuto di mistici alleati vecchi e nuovi, attraversa le sconvolgenti e pericolose realtà alternative del Multiverso per affrontare un nuovo misterioso avversario.</p>
             </div>
         </div>
     </div>

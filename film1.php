@@ -25,6 +25,22 @@ if (!$user) {
     exit();
 }
 
+$queryGetImagePath = "SELECT image_path FROM utenti WHERE id = :userId";
+$stmtGetImagePath = $connection->prepare($queryGetImagePath);
+$stmtGetImagePath->bindParam(':userId', $user['id'], PDO::PARAM_INT);
+$stmtGetImagePath->execute();
+
+$imagePathResult = $stmtGetImagePath->fetch(PDO::FETCH_ASSOC);
+
+                // Verifica se la query ha restituito un risultato
+if ($imagePathResult && $imagePathResult['image_path'] !== "uploads/default.png") {
+        $imagePath = $imagePathResult['image_path'];
+        
+} else {
+                    // Se la query non ha restituito un risultato, assegna un valore di default o gestisci l'errore in modo appropriato
+    $imagePath = "uploads/default.png"; // Sostituisci con il percorso dell'immagine di default
+        }
+
 // Se l'utente è autenticato, visualizza il contenuto della dashboard
 ?>
 <!DOCTYPE html>
@@ -83,7 +99,7 @@ if (!$user) {
     <div class="container">
         <div class="neutral-page">
             <div class="neutral-left">
-                <img src="immagini/wk4.jpeg" alt="Movie Image">
+                <img src="immagini/film/film1.jpeg" alt="Movie Image">
                 <form class="add-favorite-form" id="addFavoriteForm">
     <input type="hidden" name="movieId" value="1">
     <button id="addToFavoritesBtn" type="button" onclick="addToFavorites()">
