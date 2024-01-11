@@ -354,6 +354,59 @@ header {
     }
 }
 
+.review-box {
+    margin-top: 30px;
+    padding: 20px;
+    background: var(--container-color);
+    border-radius: 10px;
+}
+
+.reviews-container {
+    margin-top: 30px;
+    padding: 20px;
+    background: var(--container-color);
+    border-radius: 10px;
+}
+
+.review {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
+
+.review-user {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.review-text {
+    margin-bottom: 10px;
+}
+
+/* Aggiunto stile al pulsante "Post Review" */
+#postReview {
+    background-color: var(--main-color);
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+#postReview:hover {
+    background-color: var(--hover-color);
+}
+
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: vertical; /* Permette la ridimensionabilità verticale */
+}
 
 
 

@@ -65,7 +65,7 @@ if ($imagePathResult && $imagePathResult['image_path'] !== "uploads/default.png"
                 <i class="bx bx-search"></i>
             </div>
             <div class="user" id="userDropdown">
-                <img src="uploads/userImage.jpg" alt="" class="user-img">
+            <?php echo '<img  src="' . $imagePath . '" alt="" class="user-img">' ?>
                 <div class="user-dropdown-content">
                     <a href="profilo.php">Profilo</a>
                     <a href="#">Preferiti</a>
@@ -120,8 +120,22 @@ if ($imagePathResult && $imagePathResult['image_path'] !== "uploads/default.png"
                      Presentando Tenoch Huerta nei panni di Namor, re di una nazione sottomarina nascosta, il film vede protagonisti anche Dominique Thorne, Michaela Coel, Mabel Cadena e Alex Livinalli.</p>
             </div>
         </div>
+        <div class="review-box">
+    <form name="reviewForm">
+        <div class="form-group">
+            <label for="review">Lascia una recensione:</label>
+            <textarea class="form-control" rows="5" name="review" id="review" required></textarea>
+        </div>
+        <input type="submit" id="postReview" class="btn btn-primary">
+    </form>
+</div>
+<div id="reviewsContainer" class="reviews-container">
+        <!-- Le recensioni saranno inserite qui dinamicamente -->
+    </div>
     </div>
     <script src="https://unpkg.com/boxicons@2.1.1/js/boxicons.min.js"></script>
     <script src="favourites.js"></script>
+    <script src="review.js"></script>
+    <script src="editReview.js"></script>
 </body>
 </html>

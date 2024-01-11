@@ -119,8 +119,22 @@ if ($imagePathResult && $imagePathResult['image_path'] !== "uploads/default.png"
                     Alcune scene con luci lampeggianti o motivi grafici potrebbero danneggiare gli spettatori fotosensibili.</p>
             </div>
         </div>
+        <div class="review-box">
+    <form name="reviewForm">
+        <div class="form-group">
+            <label for="review">Lascia una recensione:</label>
+            <textarea class="form-control" rows="5" name="review" id="review" required></textarea>
+        </div>
+        <input type="submit" id="postReview" class="btn btn-primary">
+    </form>
+</div>
+<div id="reviewsContainer" class="reviews-container">
+        <!-- Le recensioni saranno inserite qui dinamicamente -->
+    </div>
     </div>
     <script src="https://unpkg.com/boxicons@2.1.1/js/boxicons.min.js"></script>
     <script src="favourites.js"></script>
+    <script src="review.js"></script>
+    <script src="editReview.js"></script>
 </body>
 </html>
