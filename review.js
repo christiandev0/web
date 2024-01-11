@@ -1,46 +1,47 @@
 document.addEventListener("DOMContentLoaded", function () {
     const reviewForm = document.forms["reviewForm"];
     const reviewsContainer = document.getElementById("reviewsContainer");
+    const id_film = document.querySelector('#addFavoriteForm [name="movieId"]').value;
 
     reviewForm.addEventListener("submit", function (event) {
         event.preventDefault();
-
+        
+        // Estrai tutti i campi dal form
+        const id_utente = reviewForm.elements["id_utente"].value;
         const reviewTextarea = reviewForm.elements["review"];
-        const reviewText = reviewTextarea.value;
+        const testo = reviewTextarea.value;
+        const data_creazione = new Date().toISOString(); // Puoi modificare questa parte secondo le tue esigenze
 
-        // Ottieni l'ID del film dalla URL o da dove è disponibile nella tua logica
-        const filmId = document.querySelector('#addFavoriteForm [name="movieId"]').value;
-
-        // Invia la recensione al server tramite AJAX o al tuo backend PHP
-        fetch("submitReview.php", {
+        fetch("api.php/recensioni", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ reviewText, filmId }),
+            body: JSON.stringify({ id_utente, id_film, testo, data_creazione }),
         })
         .then(response => response.json())
         .then(data => {
-            alert(data.message); // Mostra un messaggio di successo o errore
-            if (data.success) {
-                // Aggiorna la pagina o carica nuovamente le recensioni
-                loadReviews(filmId);
+            alert(data.message);
+            if (data.status === 'success') {
+                loadReviews(id_film);
             }
         })
         .catch(error => {
             console.error("Errore durante l'invio della recensione:", error);
         });
 
-        // Pulisci il campo della recensione
         reviewTextarea.value = "";
     });
 
-    // Funzione per caricare le recensioni al caricamento della pagina
-    function loadReviews(filmId) {
-        fetch(`getReviews.php?filmId=${filmId}`)
+    function loadReviews(movieId) {
+        fetch(`api.php/recensioni?movieId=${movieId}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
         .then(response => response.json())
         .then(data => {
-            // Aggiorna la sezione delle recensioni nel tuo HTML
             if (data.reviews) {
                 reviewsContainer.innerHTML = "<h3>Recensioni:</h3><ul>";
                 data.reviews.forEach(review => {
@@ -52,10 +53,5 @@ document.addEventListener("DOMContentLoaded", function () {
         .catch(error => {
             console.error("Errore durante il recupero delle recensioni:", error);
         });
-    }
-
-    // Carica le recensioni al caricamento della pagina
-    const filmId = 1; // Sostituisci con la tua logica per ottenere l'ID del film
-    loadReviews(filmId);
+    }    
 });
-

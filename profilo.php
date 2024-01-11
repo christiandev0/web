@@ -18,7 +18,7 @@ $stmtCheckToken->bindParam(':token', $token, PDO::PARAM_STR);
 $stmtCheckToken->execute();
 
 $user = $stmtCheckToken->fetch(PDO::FETCH_ASSOC);
-
+$userId= $user['id'];
 if (!$user) {
     // Se il token non è valido, reindirizza alla pagina di login
     header("Location: login.html");
@@ -130,13 +130,9 @@ if ($imagePathResult && $imagePathResult['image_path'] !== "uploads/default.png"
     <div class="edit-profile-menu">
         <a href="#" id="modifyUsernameLink">Modifica Username</a>
         <a href="#" id="modifyImageLink">Modifica Immagine</a>
-        <a href="#" id="deleteAccountLink" onclick="confirmDelete()">Elimina Account</a>
+        <a href="#" id="deleteAccountLink" data-user-id="<?php echo $user['id']; ?>">Elimina Account</a>
     </div>
 </div>
-<form id="deleteAccountForm" action="delete_profile.php" method="post" style="display: none;">
-        <input type="hidden" name="confirmDelete" value="1">
-        <button type="submit">Elimina Account</button>
-    </form>
 <div id="modifyUsernameSection" style="display: none;">
     <input type="text" id="newUsername" placeholder="Nuovo Username">
     <button onclick="modifyUsername()">Salva</button>

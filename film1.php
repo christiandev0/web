@@ -126,6 +126,7 @@ if ($imagePathResult && $imagePathResult['image_path'] !== "uploads/default.png"
             <label for="review">Lascia una recensione:</label>
             <textarea class="form-control" rows="5" name="review" id="review" required></textarea>
         </div>
+        <input type="hidden" name="id_utente" value="<?php echo $user['id']; ?>">
         <input type="submit" id="postReview" class="btn btn-primary">
     </form>
 </div>
@@ -136,6 +137,6 @@ if ($imagePathResult && $imagePathResult['image_path'] !== "uploads/default.png"
     <script src="https://unpkg.com/boxicons@2.1.1/js/boxicons.min.js"></script>
     <script src="favourites.js"></script>
     <script src="review.js"></script>
-    <script src="editReview.js"></script>
+    
 </body>
 </html>

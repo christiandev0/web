@@ -1,109 +1,168 @@
 <?php
+function handleGetRequestRecensione($table, $key, $pdo) {
+    $sql = "SELECT * FROM `$table`" . ($key ? " WHERE ID = " . $pdo->quote($key) : '');
+    try {
+        $statement = $pdo->query($sql);
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        header('Content-Type: application/json');
+        echo json_encode($result);
+    } catch (PDOException $e) {
+        http_response_code(404);
+        $response = array('status' => 'error', 'message' => $e->getMessage());
+        header('Content-Type: application/json');
+        echo json_encode($response);
+    }
+}
 
-$hostname = "localhost:3306";
-$username = "root";
-$password = "";
-$database = "progetto";
+function handlePostRequestRecensione($table, $json_data, $pdo) {
+    $set = json_decode($json_data, true);
+    $id_utente = $set['id_utente'];
+    $id_film = $set['id_film'];
 
-// Funzione per verificare e ottenere l'ID dell'utente dal token di accesso
-function getUserIdFromToken($token, $conn) {
-    $stmt = $conn->prepare("SELECT id FROM utenti WHERE token = :token");
-    $stmt->bindParam(':token', $token);
+    // Verifica se l'utente ha già recensito questo film
+    if (hasUserReviewedFilm($id_utente, $id_film, $pdo)) {
+        http_response_code(400);  // Bad Request
+        $response = array('status' => 'error', 'message' => 'Hai già recensito questo film.');
+        header('Content-Type: application/json');
+        echo json_encode($response);
+        return;
+    }
+
+    // Procedi con l'inserimento della recensione
+    $columns = preg_replace('/[^a-z0-9_]+/i', '', array_keys($set));
+    $values = array_map(function ($value) use ($pdo) {
+        return $pdo->quote($value);
+    }, array_values($set));
+
+    $columns_string = implode(', ', $columns);
+    $values_string = implode(', ', $values);
+
+    $sql = "INSERT INTO `$table` ($columns_string) VALUES ($values_string)";
+
+    try {
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $lastInsertId = $pdo->lastInsertId();
+        $response = array('status' => 'success', 'message' => 'Recensione aggiunta con successo.', 'inserted_id' => $lastInsertId);
+        header('Content-Type: application/json');
+        echo json_encode($response);
+    } catch (PDOException $e) {
+        http_response_code(404);
+        $response = array('status' => 'error', 'message' => $e->getMessage());
+        header('Content-Type: application/json');
+        echo json_encode($response);
+    }
+}
+
+// Funzione per verificare se l'utente ha già recensito il film
+function hasUserReviewedFilm($id_utente, $id_film, $pdo) {
+    $sql = "SELECT COUNT(*) AS count FROM recensioni WHERE id_utente = :id_utente AND id_film = :id_film";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':id_utente', $id_utente, PDO::PARAM_INT);
+    $stmt->bindParam(':id_film', $id_film, PDO::PARAM_INT);
     $stmt->execute();
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-    return $user ? $user['id'] : null;
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $result['count'] > 0;
 }
 
-try {
-    $conn = new PDO("mysql:host=$hostname;dbname=$database", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Verifica l'autenticazione con il token
-    $auth_token = isset($_SERVER['HTTP_AUTHORIZATION']) ? trim($_SERVER['HTTP_AUTHORIZATION']) : null;
 
-    if (!$auth_token) {
-        header('HTTP/1.1 401 Unauthorized');
-        echo json_encode(["error" => "Token di accesso mancante"]);
-        exit();
-    }
-
-    // Ottieni l'ID dell'utente dal token
-    $user_id = getUserIdFromToken($auth_token, $conn);
-
-    if (!$user_id) {
-        header('HTTP/1.1 401 Unauthorized');
-        echo json_encode(["error" => "Token di accesso non valido"]);
-        exit();
-    }
-
-    // Gestione delle richieste
-    $method = $_SERVER['REQUEST_METHOD'];
-    $request_uri = $_SERVER['REQUEST_URI'];
-    $uri_segments = explode('/', trim(parse_url($request_uri, PHP_URL_PATH), '/'));
-
-    switch ($method) {
-        case 'GET':
-            // Ottieni i dettagli di un utente specifico
-            if ($uri_segments[0] == 'users' && count($uri_segments) == 2) {
-                $id = $uri_segments[1];
-                $stmt = $conn->prepare("SELECT id, name, email FROM utenti WHERE id = :id");
-                $stmt->bindParam(':id', $id);
-                $stmt->execute();
-                $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                if (!$user) {
-                    header('HTTP/1.1 404 Not Found');
-                    echo json_encode(["error" => "Utente non trovato"]);
-                } else {
-                    echo json_encode($user);
-                }
-            } else {
-                // Ottieni tutti gli utenti
-                $stmt = $conn->prepare("SELECT id, name, email FROM utenti");
-                $stmt->execute();
-                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                echo json_encode($result);
-            }
-            break;
-
-        case 'PUT':
-            // Aggiorna i dettagli di un utente specifico
-            if ($uri_segments[0] == 'users' && count($uri_segments) == 2 && $uri_segments[1] == $user_id) {
-                $data = json_decode(file_get_contents("php://input"), true);
-                $stmt = $conn->prepare("UPDATE utenti SET name = :name, email = :email WHERE id = :id");
-                $stmt->bindParam(':name', $data['name']);
-                $stmt->bindParam(':email', $data['email']);
-                $stmt->bindParam(':id', $user_id);
-                $stmt->execute();
-                echo json_encode(["success" => "Utente aggiornato con successo"]);
-            } else {
-                header('HTTP/1.1 403 Forbidden');
-                echo json_encode(["error" => "Operazione non consentita"]);
-            }
-            break;
-
-        case 'DELETE':
-            // Elimina un utente
-            if ($uri_segments[0] == 'users' && count($uri_segments) == 2 && $uri_segments[1] == $user_id) {
-                $stmt = $conn->prepare("DELETE FROM utenti WHERE id = :id");
-                $stmt->bindParam(':id', $user_id);
-                $stmt->execute();
-                echo json_encode(["success" => "Utente eliminato con successo"]);
-            } else {
-                header('HTTP/1.1 403 Forbidden');
-                echo json_encode(["error" => "Operazione non consentita"]);
-            }
-            break;
-
-        default:
-            header('HTTP/1.1 405 Method Not Allowed');
-            header('Allow: GET, PUT, DELETE');
-            break;
-    }
-} catch (PDOException $e) {
-    header('HTTP/1.1 500 Internal Server Error');
-    echo json_encode(["error" => "Errore di connessione al database: " . $e->getMessage()]);
+function handlePutRequestImmagine($table, $input, $key, $pdo) {
+  $sql = "UPDATE $table SET immagine = :campo WHERE id = :id";
+  try {
+      $stmt = $pdo->prepare($sql);
+      $stmt->bindParam(':campo', $input['immagine'], PDO::PARAM_STR);
+      $stmt->bindParam(':id', $key, PDO::PARAM_INT);
+      $stmt->execute();
+      $response = array('status' => 'success', 'message' => 'PUT OK');
+      header('Content-Type: application/json');
+      echo json_encode($response);
+  } catch (PDOException $e) {
+      http_response_code(404);
+      $response = array('status' => 'error', 'message' => $e->getMessage());
+      header('Content-Type: application/json');
+      echo json_encode($response);
+  }
 }
 
-$conn = null; // Chiudi la connessione quando hai finito
+
+function handleDeleteUser($table, $key, $pdo) {
+    try {
+        // Elimina manualmente le recensioni associate
+        $sqlDeleteReviews = "DELETE FROM recensioni WHERE id_utente = " . $pdo->quote($key);
+        $pdo->exec($sqlDeleteReviews);
+
+        // Procedi con l'eliminazione dell'utente
+        $sqlDeleteUser = "DELETE FROM `$table` WHERE id = " . $pdo->quote($key);
+        $pdo->exec($sqlDeleteUser);
+
+        $response = array('status' => 'success', 'message' => 'Utente eliminato con successo');
+    } catch (PDOException $e) {
+        http_response_code(500);  // Internal Server Error
+        $response = array('status' => 'error', 'message' => 'Errore durante l\'eliminazione dell\'utente: ' . $e->getMessage());
+    }
+
+    // Invia la risposta in formato JSON
+    header('Content-Type: application/json');
+    echo json_encode($response);
+}
+
+
+// get the HTTP method, path, and body of the request
+$method = $_SERVER['REQUEST_METHOD'];
+$request = explode('/', trim($_SERVER['PATH_INFO'], '/'));
+$input = json_decode(file_get_contents('php://input'), true);
+
+
+
+// connect to the mysql database
+$connessione = require __DIR__ . '/connessioneDB.php';
+
+// retrieve the table and key from the path
+$table = preg_replace('/[^a-z0-9_]+/i', '', array_shift($request));
+$_key = array_shift($request);
+$key = $_key;
+//$key = $_key + 0;
+
+
+// escape the columns and values from the input object
+if (isset($input)) {
+  $columns = preg_replace('/[^a-z0-9_]+/i', '', array_keys($input));
+  $values = array_map(function ($value) use ($connessione) {
+      if ($value === null) return null;
+      return $connessione->quote($value);
+  }, array_values($input));
+}
+
+
+
+// build the SET part of the SQL command
+if (isset($input)) {
+  $set = '';
+  for ($i = 0; $i < count($columns); $i++) {
+      $set .= ($i > 0 ? ',' : '') . '`' . $columns[$i] . '`=';
+      $set .= ($values[$i] === null ? 'NULL' : '"' . $values[$i] . '"');
+  }
+}
+
+// create SQL based on HTTP method
+switch ($method) {
+  case 'GET':
+      handleGetRequestRecensione($table, $key, $connessione);
+      break;
+  case 'PUT':
+      /*handlePutRequestTitolo($table, $input, $key, $connessione);
+      handlePutRequestCorpo($table, $input, $key, $connessione);
+      handlePutRequestImmagine($table, $input, $key, $connessione);
+      handlePutRequestCategoria($table, $input, $key, $connessione);
+      break;*/
+  case 'POST':
+      handlePostRequestRecensione($table, file_get_contents('php://input'), $connessione);
+      break;
+  case 'DELETE':
+      handleDeleteUser($table, $key, $connessione);
+      break;
+}
+
+
 ?>
