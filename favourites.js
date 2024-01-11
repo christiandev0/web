@@ -2,21 +2,28 @@ function addToFavorites() {
     var movieId = document.querySelector('#addFavoriteForm [name="movieId"]').value;
 
     // Esegui una richiesta asincrona per verificare e aggiungere il film ai preferiti
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'addpreferiti.php', true);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.onload = function() {
+    fetch('api.php/preferiti', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ movieId: movieId }),
+    })
+    .then(response => {
         var notification = document.getElementById('notification');
-        if (xhr.status === 200) {
+        if (response.ok) {
             // Operazioni dopo la verifica e l'aggiunta ai preferiti
-            notification.textContent = xhr.responseText;
-            notification.style.color = 'green';
+            return response.text();
         } else {
-            notification.textContent = xhr.responseText;
-            notification.style.color = 'red';
+            return Promise.reject('Errore durante la richiesta: ' + response.statusText);
         }
-    };
-
-    // Invia la richiesta con l'ID del film
-    xhr.send('movieId=' + encodeURIComponent(movieId));
+    })
+    .then(data => {
+        notification.textContent = data;
+        notification.style.color = 'green';
+    })
+    .catch(error => {
+        notification.textContent = error;
+        notification.style.color = 'red';
+    });
 }

@@ -101,12 +101,13 @@ if ($imagePathResult && $imagePathResult['image_path'] !== "uploads/default.png"
             <div class="neutral-left">
                 <img src="immagini/film/film1.jpeg" alt="Movie Image">
                 <form class="add-favorite-form" id="addFavoriteForm">
-    <input type="hidden" name="movieId" value="1">
-    <button id="addToFavoritesBtn" type="button" onclick="addToFavorites()">
+    <input type="hidden" name="movieId" id="movieIdInput" value="1">
+    <button id="addToFavoritesBtn" type="button">
         Aggiungi ai preferiti <i class='bx bxs-heart'></i>
     </button>
     <div id="notification"></div>
 </form>
+
 
             </div>
             <div class="neutral-right">

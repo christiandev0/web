@@ -85,6 +85,45 @@ function handlePutRequestImmagine($table, $input, $key, $pdo) {
   }
 }
 
+function handlePutRequestUsername($table, $json_data, $pdo) {
+    $set = json_decode($json_data, true);
+    $id = $set['id'];
+    $newUsername = $set['username'];
+
+    // Verifica se un altro utente ha già lo stesso username
+    $queryCheckUsername = "SELECT id FROM `$table` WHERE username = :newUsername AND id != :id";
+    $stmtCheckUsername = $pdo->prepare($queryCheckUsername);
+    $stmtCheckUsername->bindParam(':newUsername', $newUsername, PDO::PARAM_STR);
+    $stmtCheckUsername->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmtCheckUsername->execute();
+
+    $existingUser = $stmtCheckUsername->fetch(PDO::FETCH_ASSOC);
+
+    if ($existingUser) {
+        http_response_code(400); // Bad Request
+        $response = array('status' => 'error', 'message' => "Lo username è già in uso da un altro utente.");
+    } else {
+        // L'utente esiste, esegui l'aggiornamento dello username
+        $updateUsernameQuery = "UPDATE `$table` SET username = :newUsername WHERE id = :id";
+        try {
+            $stmt = $pdo->prepare($updateUsernameQuery);
+            $stmt->bindParam(':newUsername', $newUsername, PDO::PARAM_STR);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+
+            $response = array('status' => 'success', 'message' => 'Username modificato con successo');
+        } catch (PDOException $e) {
+            http_response_code(500);  // Internal Server Error
+            $response = array('status' => 'error', 'message' => 'Errore durante la modifica dello username: ' . $e->getMessage());
+        }
+    }
+
+    // Invia la risposta in formato JSON
+    header('Content-Type: application/json');
+    echo json_encode($response);
+}
+
+
 
 function handleDeleteUser($table, $key, $pdo) {
     try {
@@ -152,10 +191,12 @@ switch ($method) {
       break;
   case 'PUT':
       /*handlePutRequestTitolo($table, $input, $key, $connessione);
-      handlePutRequestCorpo($table, $input, $key, $connessione);
+      
       handlePutRequestImmagine($table, $input, $key, $connessione);
       handlePutRequestCategoria($table, $input, $key, $connessione);
       break;*/
+      handlePutRequestUsername($table, file_get_contents('php://input'), $connessione);
+      break;
   case 'POST':
       handlePostRequestRecensione($table, file_get_contents('php://input'), $connessione);
       break;

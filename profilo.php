@@ -128,20 +128,20 @@ if ($imagePathResult && $imagePathResult['image_path'] !== "uploads/default.png"
             <div class="profile-actions">
     <button id="editProfileButton">Modifica Profilo</button>
     <div class="edit-profile-menu">
-        <a href="#" id="modifyUsernameLink">Modifica Username</a>
-        <a href="#" id="modifyImageLink">Modifica Immagine</a>
+        <a href="#" id="modifyUsernameLink"data-user-idUS="<?php echo $user['id']; ?>">Modifica Username</a>
+        <a href="#" id="modifyImageLink" >Modifica Immagine</a>
         <a href="#" id="deleteAccountLink" data-user-id="<?php echo $user['id']; ?>">Elimina Account</a>
     </div>
 </div>
 <div id="modifyUsernameSection" style="display: none;">
     <input type="text" id="newUsername" placeholder="Nuovo Username">
-    <button onclick="modifyUsername()">Salva</button>
 </div>
 
     <script src="https://unpkg.com/boxicons@2.1.1/js/boxicons.min.js"></script>
     <script src="modify_profile.js"></script>
-    <script src="modify_username.js"></script>
+    <script src="modify_username.js" defer></script>
     <script src="delete_profile.js"></script>
+    <script></script>
    
 </body>
 </html>
